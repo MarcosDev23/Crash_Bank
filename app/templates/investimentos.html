@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CRASH BANK - Investimentos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2 style="color: #00ff88;">CRASH BANK</h2>
+            <a href="/dashboard" class="active">🏠 Dashboard</a>
+            <a href="/balanco">📊 Extrato/Balanço</a>
+            <a href="/investimentos">💰 Investimentos</a>
+            <a href="/" style="margin-top: auto;">🚪 Sair</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="header-dash">
+                <h1>Mercado em Tempo Real</h1>
+                <button id="theme-toggle" onclick="toggleTheme()">🌓 Alternar Tema</button>
+            </div>
+
+            <div class="card">
+                <h3>Pesquisar Ativo (B3 ou Moedas)</h3>
+                <p style="font-size: 0.8rem; opacity: 0.6;">Exemplos: PETR4.SA, ITUB4.SA, USDBRL=X</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <input type="text" id="tickerInput" placeholder="Digite o código..." style="margin: 0;">
+                    <button onclick="buscarCotacao()" style="width: auto; margin: 0;">Consultar</button>
+                </div>
+            </div>
+
+            <div id="resultadoInvestimento" class="card" style="display: none; margin-top: 20px;">
+                <h2 id="resTicker">---</h2>
+                <p id="resPreco" style="font-size: 2.5rem; color: #00ff88;">R$ 0,00</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        async function buscarCotacao() {
+            const ticker = document.getElementById('tickerInput').value.toUpperCase();
+            const resDiv = document.getElementById('resultadoInvestimento');
+
+            if (!ticker) return;
+
+            const response = await fetch(`/get_stock_price?ticker=${ticker}`);
+            const data = await response.json();
+
+            if (data.price) {
+                resDiv.style.display = 'block';
+                document.getElementById('resTicker').innerText = ticker;
+                document.getElementById('resPreco').innerText = `R$ ${data.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            } else {
+                alert("Ativo não encontrado. Lembre-se de usar '.SA' para ações brasileiras.");
+            }
+        }
+    </script>
+</body>
+
+</html>

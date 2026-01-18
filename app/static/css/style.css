@@ -1,0 +1,221 @@
+/* Configuração de Cores e Temas */
+:root {
+    --bg-color: #0a0a0a;
+    --card-bg: #141414;
+    --text-color: #ffffff;
+    --primary-color: #00ff88;
+    /* Verde Neon */
+    --input-bg: #1f1f1f;
+}
+
+/* Classe para o Tema Claro */
+.light-mode {
+    --bg-color: #f4f4f4;
+    --card-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --primary-color: #008f5d;
+    --input-bg: #e0e0e0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: 0.3s;
+    /* Suaviza a troca de tema */
+}
+
+.login-container {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+}
+
+h1 {
+    color: var(--primary-color);
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: none;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #000;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+}
+
+/* Botão Flutuante de Tema */
+#theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: auto;
+    padding: 10px;
+}
+
+
+/* Layout do Dashboard */
+.dashboard-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: stretch;
+}
+
+/* Menu Lateral */
+.sidebar {
+    width: 250px;
+    background-color: var(--card-bg);
+    border-right: 2px solid var(--primary-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: var(--primary-color);
+    color: #000;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    background-color: var(--bg-color);
+}
+
+.header-dash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Cards de Saldo */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.card p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.text-green {
+    color: #00ff88;
+}
+
+.text-red {
+    color: #ff4d4d;
+}
+
+/* Container do Gráfico */
+.chart-container {
+    width: 300px;
+    margin: 0 auto;
+}
+
+/* Estilo da Tabela de Transações */
+.transacoes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.transacoes-table th {
+    padding: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.transacoes-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Efeito de destaque ao passar o mouse na linha */
+.transacoes-table tr:hover {
+    background-color: rgba(0, 255, 136, 0.05);
+    transition: 0.2s;
+}
+
+/* Ajuste para o modo claro na tabela */
+.light-mode .transacoes-table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

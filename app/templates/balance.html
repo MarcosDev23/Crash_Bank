@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CRASH BANK - Balanço</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>CRASH BANK</h2>
+            <a href="/dashboard" class="active">🏠 Dashboard</a>
+            <a href="/balanco">📊 Extrato/Balanço</a>
+            <a href="/investimentos">💰 Investimentos</a>
+            <a href="/" style="margin-top: auto;">🚪 Sair</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="header-dash">
+                <h1>Extrato Detalhado</h1>
+                <button id="theme-toggle" onclick="toggleTheme()">🌓 Alternar Tema</button>
+            </div>
+
+            <div class="card">
+                <h3>Histórico de Transações</h3>
+                <table class="transacoes-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15/01/2026</td>
+                            <td>Salário Mensal</td>
+                            <td>Renda</td>
+                            <td class="text-green">+ R$ 5.000,00</td>
+                        </tr>
+                        <tr>
+                            <td>14/01/2026</td>
+                            <td>Supermercado Central</td>
+                            <td>Alimentação</td>
+                            <td class="text-red">- R$ 450,20</td>
+                        </tr>
+                        <tr>
+                            <td>12/01/2026</td>
+                            <td>Assinatura Streaming</td>
+                            <td>Lazer</td>
+                            <td class="text-red">- R$ 55,90</td>
+                        </tr>
+                        <tr>
+                            <td>10/01/2026</td>
+                            <td>Venda Notebook Antigo</td>
+                            <td>Extra</td>
+                            <td class="text-green">+ R$ 1.200,00</td>
+                        </tr>
+                        <tr>
+                            <td>08/01/2026</td>
+                            <td>Aluguel Janeiro</td>
+                            <td>Moradia</td>
+                            <td class="text-red">- R$ 1.600,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

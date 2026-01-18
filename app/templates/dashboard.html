@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CRASH BANK - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>CRASH BANK</h2>
+            <a href="/dashboard" class="active">🏠 Dashboard</a>
+            <a href="/balanco">📊 Extrato/Balanço</a>
+            <a href="/investimentos">💰 Investimentos</a>
+            <a href="/" style="margin-top: auto;">🚪 Sair</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="header-dash">
+                <h1>Olá, {{ current_user.nome }}</h1>
+                <button id="theme-toggle" onclick="toggleTheme()">🌓 Alternar Tema</button>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Saldo Total</h3>
+                    <p>R$ 12.450,00</p>
+                </div>
+                <div class="card">
+                    <h3>Entradas (Mês)</h3>
+                    <p class="text-green">+ R$ 5.000,00</p>
+                </div>
+                <div class="card">
+                    <h3>Saídas (Mês)</h3>
+                    <p class="text-red">- R$ 2.150,00</p>
+                </div>
+            </div>
+
+            <div class="card" style="text-align: center;">
+                <h3>Resumo de Gastos (Rosca)</h3>
+                <div class="chart-container">
+                    <canvas id="meuGrafico"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Inicializando o gráfico de rosca
+        const ctx = document.getElementById('meuGrafico').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Entradas', 'Saídas'],
+                datasets: [{
+                    data: [5000, 2150],
+                    backgroundColor: ['#00ff88', '#ff4d4d'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { labels: { color: 'white' } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

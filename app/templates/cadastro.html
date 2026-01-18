@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crash Bank - Abrir Conta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dark-mode">
+    <div class="login-container">
+        <h1>CRASH BANK</h1>
+        <p>Preencha os dados para abrir sua conta</p>
+
+        <form action="/cadastro" method="POST" onsubmit="return verificarAntesDeEnviar()">
+            <input type="text" name="nome" placeholder="Nome Completo" required>
+
+            <input type="text" id="cpfInput" name="cpf" placeholder="000.000.000-00" oninput="mascaraCPF(this)"
+                required>
+            <span id="cpfErro" style="color: #ff4d4d; font-size: 0.8rem; display: none; margin-bottom: 10px;">CPF
+                Inválido!</span>
+
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="senha" placeholder="Crie uma Senha" required>
+
+            <form action="/cadastro" method="POST">
+                <button type="submit">Finalizar Cadastro</button>
+            </form>
+            <a href="/"
+                style="display:block; margin-top:15px; color:var(--text-color); text-decoration:none; font-size:0.9rem;">Voltar
+                ao Login</a>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function verificarAntesDeEnviar() {
+            const cpfVal = document.getElementById('cpfInput').value;
+            if (!validarCPF(cpfVal)) {
+                document.getElementById('cpfErro').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
