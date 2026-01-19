@@ -24,7 +24,7 @@ O **Crash Bank** é uma aplicação web de gestão financeira pessoal e consulta
 ## 📦 Como rodar o projeto
 
 1. **Clone o repositório:**
-   git clone [https://github.com/SEU_USUARIO/crash_bank.git](https://github.com/SEU_USUARIO/crash_bank.git)
+   git clone:[https://github.com/MarcosDev23/Crash_Bank](https://github.com/MarcosDev23/Crash_Bank.git)
    cd crash_bank
 
 2.  **Crie um ambiente virtual e ative-o:**
