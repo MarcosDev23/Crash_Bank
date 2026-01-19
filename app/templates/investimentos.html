@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <title>CRASH BANK - Investimentos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <div class="dashboard-container">
         <nav class="sidebar">
             <h2 style="color: #00ff88;">CRASH BANK</h2>
-            <a href="/dashboard" class="active">🏠 Dashboard</a>
+            <a href="/dashboard">🏠 Dashboard</a>
             <a href="/balanco">📊 Extrato/Balanço</a>
-            <a href="/investimentos">💰 Investimentos</a>
-            <a href="/" style="margin-top: auto;">🚪 Sair</a>
+            <a href="/investimentos" class="active">💰 Investimentos</a>
+            <a href="/logout" style="margin-top: auto;">🚪 Sair</a>
         </nav>
 
         <main class="main-content">
@@ -33,31 +34,101 @@
             </div>
 
             <div id="resultadoInvestimento" class="card" style="display: none; margin-top: 20px;">
-                <h2 id="resTicker">---</h2>
-                <p id="resPreco" style="font-size: 2.5rem; color: #00ff88;">R$ 0,00</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="resTicker" style="margin: 0;">---</h2>
+                    <p id="resPreco" style="font-size: 2rem; color: #00ff88; margin: 0;">R$ 0,00</p>
+                </div>
+
+                <div style="height: 250px; width: 100%; margin-top: 20px;">
+                    <canvas id="graficoHistorico"></canvas>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
+        let chartInstancia = null; // Variável global para controlar a instância do gráfico
+
         async function buscarCotacao() {
-            const ticker = document.getElementById('tickerInput').value.toUpperCase();
+            const tickerInput = document.getElementById('tickerInput');
+            const ticker = tickerInput.value.toUpperCase();
             const resDiv = document.getElementById('resultadoInvestimento');
+            const resPreco = document.getElementById('resPreco');
+            const resTicker = document.getElementById('resTicker');
 
-            if (!ticker) return;
+            if (!ticker) {
+                alert("Por favor, digite um código de ativo.");
+                return;
+            }
 
-            const response = await fetch(`/get_stock_price?ticker=${ticker}`);
-            const data = await response.json();
+            try {
+                const response = await fetch(`/get_stock_price?ticker=${ticker}`);
+                const data = await response.json();
 
-            if (data.price) {
-                resDiv.style.display = 'block';
-                document.getElementById('resTicker').innerText = ticker;
-                document.getElementById('resPreco').innerText = `R$ ${data.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            } else {
-                alert("Ativo não encontrado. Lembre-se de usar '.SA' para ações brasileiras.");
+                if (response.ok && data.price) {
+                    // 1. Torna a div visível primeiro
+                    resDiv.style.display = 'block';
+                    resTicker.innerText = ticker;
+                    resPreco.innerText = `R$ ${data.price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+                    // 2. Lógica do Gráfico
+                    const ctx = document.getElementById('graficoHistorico').getContext('2d');
+
+                    // Destrói o gráfico anterior se ele existir (evita bugs visuais)
+                    if (chartInstancia) {
+                        chartInstancia.destroy();
+                    }
+
+                    chartInstancia = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Preço de Fechamento',
+                                data: data.history,
+                                borderColor: '#00ff88',
+                                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 3,
+                                pointBackgroundColor: '#00ff88'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: '#888' }
+                                },
+                                y: {
+                                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                    ticks: { color: '#888' }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    resDiv.style.display = 'none';
+                    alert(data.error || "Ativo não encontrado. Verifique se usou '.SA' para ações brasileiras.");
+                }
+            } catch (error) {
+                console.error("Erro na consulta:", error);
+                alert("Erro ao buscar dados do mercado.");
             }
         }
+
+        // Permitir busca ao pressionar Enter
+        document.getElementById('tickerInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                buscarCotacao();
+            }
+        });
     </script>
 </body>
 

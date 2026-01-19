@@ -11,10 +11,10 @@
     <div class="dashboard-container">
         <nav class="sidebar">
             <h2>CRASH BANK</h2>
-            <a href="/dashboard" class="active">🏠 Dashboard</a>
-            <a href="/balanco">📊 Extrato/Balanço</a>
+            <a href="/dashboard">🏠 Dashboard</a>
+            <a href="/balanco" class="active">📊 Extrato/Balanço</a>
             <a href="/investimentos">💰 Investimentos</a>
-            <a href="/" style="margin-top: auto;">🚪 Sair</a>
+            <a href="/logout" style="margin-top: auto;">🚪 Sair</a>
         </nav>
 
         <main class="main-content">
@@ -30,41 +30,25 @@
                         <tr>
                             <th>Data</th>
                             <th>Descrição</th>
-                            <th>Categoria</th>
+                            <th>Tipo</th>
                             <th>Valor</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for t in current_user.transacoes|sort(attribute='data', reverse=True) %}
                         <tr>
-                            <td>15/01/2026</td>
-                            <td>Salário Mensal</td>
-                            <td>Renda</td>
-                            <td class="text-green">+ R$ 5.000,00</td>
+                            <td>{{ t.data.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>{{ t.descricao }}</td>
+                            <td>{{ t.tipo|capitalize }}</td>
+                            <td class="{{ 'text-green' if t.tipo == 'entrada' else 'text-red' }}">
+                                {{ '+' if t.tipo == 'entrada' else '-' }} R$ {{ "%.2f"|format(t.valor) }}
+                            </td>
                         </tr>
+                        {% else %}
                         <tr>
-                            <td>14/01/2026</td>
-                            <td>Supermercado Central</td>
-                            <td>Alimentação</td>
-                            <td class="text-red">- R$ 450,20</td>
+                            <td colspan="4" style="text-align: center; opacity: 0.5;">Nenhuma transação encontrada.</td>
                         </tr>
-                        <tr>
-                            <td>12/01/2026</td>
-                            <td>Assinatura Streaming</td>
-                            <td>Lazer</td>
-                            <td class="text-red">- R$ 55,90</td>
-                        </tr>
-                        <tr>
-                            <td>10/01/2026</td>
-                            <td>Venda Notebook Antigo</td>
-                            <td>Extra</td>
-                            <td class="text-green">+ R$ 1.200,00</td>
-                        </tr>
-                        <tr>
-                            <td>08/01/2026</td>
-                            <td>Aluguel Janeiro</td>
-                            <td>Moradia</td>
-                            <td class="text-red">- R$ 1.600,00</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
